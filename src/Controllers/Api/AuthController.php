@@ -38,6 +38,11 @@ class AuthController
             return new JsonResponse(['error' => 'Invalid credentials'], 401);
         }
 
+        // Regenerate session ID to prevent session fixation
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_regenerate_id(true);
+        }
+
         $response = new JsonResponse($result);
         $response->headers->setCookie(
             new \Symfony\Component\HttpFoundation\Cookie(

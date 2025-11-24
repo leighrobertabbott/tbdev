@@ -46,31 +46,46 @@ class Bencode
         if ($char === 'i') {
             $position++;
             $end = strpos($data, 'e', $position);
+            if ($end === false) {
+                throw new \RuntimeException('Invalid bencode: integer not terminated');
+            }
             $value = (int) substr($data, $position, $end - $position);
             $position = $end + 1;
             return $value;
         } elseif ($char === 'l') {
             $position++;
             $list = [];
-            while ($data[$position] !== 'e') {
+            while ($position < strlen($data) && $data[$position] !== 'e') {
                 $list[] = self::decodeValue($data, $position);
+            }
+            if ($position >= strlen($data)) {
+                throw new \RuntimeException('Invalid bencode: list not terminated');
             }
             $position++;
             return $list;
         } elseif ($char === 'd') {
             $position++;
             $dict = [];
-            while ($data[$position] !== 'e') {
+            while ($position < strlen($data) && $data[$position] !== 'e') {
                 $key = self::decodeValue($data, $position);
                 $value = self::decodeValue($data, $position);
                 $dict[$key] = $value;
+            }
+            if ($position >= strlen($data)) {
+                throw new \RuntimeException('Invalid bencode: dictionary not terminated');
             }
             $position++;
             return $dict;
         } elseif (ctype_digit($char)) {
             $colon = strpos($data, ':', $position);
+            if ($colon === false) {
+                throw new \RuntimeException('Invalid bencode: string length missing colon');
+            }
             $length = (int) substr($data, $position, $colon - $position);
             $position = $colon + 1;
+            if ($position + $length > strlen($data)) {
+                throw new \RuntimeException('Invalid bencode: string length exceeds data');
+            }
             $value = substr($data, $position, $length);
             $position += $length;
             return $value;

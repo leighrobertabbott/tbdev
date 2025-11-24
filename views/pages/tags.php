@@ -73,10 +73,20 @@ ob_start();
             renderTag('Color (alt. 2)', 'Changes the color of the enclosed text.', '[color=#RGB]Text[/color]', '[color=#0000ff]This is blue text.[/color]', 'RGB must be a six digit hexadecimal number.');
             renderTag('Size', 'Sets the size of the enclosed text.', '[size=n]text[/size]', '[size=4]This is size 4.[/size]', 'n must be an integer in the range 1 (smallest) to 7 (biggest). The default size is 2.');
             renderTag('Font', 'Sets the type-face (font) for the enclosed text.', '[font=Font]Text[/font]', '[font=Impact]Hello world![/font]', 'You specify alternative fonts by separating them with a comma.');
-            renderTag('Hyperlink (alt. 1)', 'Inserts a hyperlink.', '[url]URL[/url]', '[url]' . \App\Core\Config::get('app.url', '/') . '[/url]', 'This tag is superfluous; all URLs are automatically hyperlinked.');
-            renderTag('Hyperlink (alt. 2)', 'Inserts a hyperlink.', '[url=URL]Link text[/url]', '[url=' . \App\Core\Config::get('app.url', '/') . ']' . \App\Core\Config::get('app.name', 'TorrentBits') . '[/url]', 'You do not have to use this tag unless you want to set the link text; all URLs are automatically hyperlinked.');
-            renderTag('Image (alt. 1)', 'Inserts a picture.', '[img=URL]', '[img=' . \App\Core\Config::get('app.url', '/') . '/pic/logo.gif]', 'The URL must end with .gif, .jpg or .png.');
-            renderTag('Image (alt. 2)', 'Inserts a picture.', '[img]URL[/img]', '[img]' . \App\Core\Config::get('app.url', '/') . '/pic/logo.gif[/img]', 'The URL must end with .gif, .jpg or .png.');
+            renderTag('Hyperlink (alt. 1)', 'Inserts a hyperlink.', '[url]URL[/url]', '[url]' .
+                \App\Core\Config::get('app.url', '/') .
+                '[/url]', 'This tag is superfluous; all URLs are automatically hyperlinked.');
+            renderTag('Hyperlink (alt. 2)', 'Inserts a hyperlink.', '[url=URL]Link text[/url]', '[url=' .
+                \App\Core\Config::get('app.url', '/') .
+                ']' .
+                \App\Core\Config::get('app.name', 'TorrentBits') .
+                '[/url]', 'You do not have to use this tag unless you want to set the link text; all URLs are automatically hyperlinked.');
+            renderTag('Image (alt. 1)', 'Inserts a picture.', '[img=URL]', '[img=' .
+                \App\Core\Config::get('app.url', '/') .
+                '/pic/logo.gif]', 'The URL must end with .gif, .jpg or .png.');
+            renderTag('Image (alt. 2)', 'Inserts a picture.', '[img]URL[/img]', '[img]' .
+                \App\Core\Config::get('app.url', '/') .
+                '/pic/logo.gif[/img]', 'The URL must end with .gif, .jpg or .png.');
             renderTag('Quote (alt. 1)', 'Inserts a quote.', '[quote]Quoted text[/quote]', '[quote]The quick brown fox jumps over the lazy dog.[/quote]');
             renderTag('Quote (alt. 2)', 'Inserts a quote.', '[quote=Author]Quoted text[/quote]', '[quote=John Doe]The quick brown fox jumps over the lazy dog.[/quote]');
             renderTag('List', 'Inserts a list item.', '[*]Text', '[*] This is item 1\n[*] This is item 2');

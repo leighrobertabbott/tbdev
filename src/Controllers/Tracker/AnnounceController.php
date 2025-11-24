@@ -116,7 +116,9 @@ class AnnounceController
                     'peer_id' => $peer_id,
                     'started' => time(),
                     'last_action' => time(),
-                    'agent' => $request->server->get('HTTP_USER_AGENT', 'Unknown'),
+                    'agent' => $request
+                        ->server
+                        ->get('HTTP_USER_AGENT', 'Unknown'),
                 ]
             );
         }

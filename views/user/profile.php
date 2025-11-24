@@ -114,7 +114,8 @@ ob_start();
                 </div>
             <?php endif; ?>
             <div class="mt-4 text-center">
-                <a href="/achievements<?= $user['id'] == $profileUser['id'] ? '' : '?user=' . $profileUser['id'] ?>" 
+                <a href="/achievements<?= $user['id'] == $profileUser['id'] ? '' : '?user=' .
+                    $profileUser['id'] ?>"
                    class="text-primary-600 hover:underline text-sm">View All Achievements</a>
             </div>
         </div>

@@ -16,7 +16,8 @@ class Poll
                     FROM polls p
                     LEFT JOIN users u ON p.created_by = u.id
                     LEFT JOIN poll_options po ON p.id = po.poll_id
-                    GROUP BY p.id ORDER BY p.sort_order DESC, p.created_at DESC LIMIT " . (int) $limit;
+                    GROUP BY p.id ORDER BY p.sort_order DESC, p.created_at DESC LIMIT " .
+                        (int) $limit;
             $params = [];
         } else {
             $sql = "SELECT p.*, u.username as creator_name,
@@ -33,7 +34,8 @@ class Poll
                 $params = ['status' => $status];
             }
             
-            $sql .= " GROUP BY p.id ORDER BY p.sort_order DESC, p.created_at DESC LIMIT " . (int) $limit;
+            $sql .= " GROUP BY p.id ORDER BY p.sort_order DESC, p.created_at DESC LIMIT " .
+                (int) $limit;
         }
         
         return Database::fetchAll($sql, $params);
@@ -128,7 +130,8 @@ class Poll
                             'option_order' => $index,
                         ]);
                     } catch (\Exception $e) {
-                        error_log('Failed to create poll option: ' . $e->getMessage());
+                        error_log('Failed to create poll option: ' .
+                            $e->getMessage());
                     }
                 }
             }
@@ -218,7 +221,8 @@ class Poll
                     ['id' => $pollId, 'count' => $voteCount]
                 );
             } catch (\Exception $e) {
-                error_log('Failed to update poll total votes: ' . $e->getMessage());
+                error_log('Failed to update poll total votes: ' .
+                    $e->getMessage());
             }
         }
 
@@ -240,7 +244,9 @@ class Poll
             return false;
         }
 
-        $sql = "UPDATE polls SET " . implode(', ', $updates) . " WHERE id = :id";
+        $sql = "UPDATE polls SET " .
+            implode(', ', $updates) .
+            " WHERE id = :id";
         $data['id'] = $id;
         
         return Database::execute($sql, $data) > 0;

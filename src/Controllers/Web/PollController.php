@@ -149,8 +149,12 @@ class PollController
         }
 
         if ($request->getMethod() === 'POST') {
-            $question = Security::sanitizeInput($request->request->get('question', ''));
-            $description = Security::sanitizeInput($request->request->get('description', ''));
+            $question = Security::sanitizeInput($request
+                ->request
+                ->get('question', ''));
+            $description = Security::sanitizeInput($request
+                ->request
+                ->get('description', ''));
             $options = $request->request->all()['options'] ?? [];
             if (!is_array($options)) {
                 $options = [$options];
@@ -160,7 +164,9 @@ class PollController
             $expiresAt = $request->request->get('expires_at', '');
             $allowMultiple = $request->request->get('allow_multiple', 0);
             $allowChangeVote = $request->request->get('allow_change_vote', 0);
-            $showResultsBeforeVote = $request->request->get('show_results_before_vote', 0);
+            $showResultsBeforeVote = $request
+                ->request
+                ->get('show_results_before_vote', 0);
 
             if (empty($question) || empty($options) || count(array_filter($options)) < 2) {
                 return ResponseHelper::view('polls/create', [

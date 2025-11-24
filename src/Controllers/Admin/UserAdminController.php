@@ -31,7 +31,8 @@ class UserAdminController
             $params['search'] = "%{$search}%";
         }
 
-        $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
+        $whereClause = !empty($where) ? 'WHERE ' .
+            implode(' AND ', $where) : '';
         $params['limit'] = $perPage;
         $params['offset'] = $offset;
 
@@ -95,7 +96,8 @@ class UserAdminController
             'torrents' => $torrents,
             'comments' => $comments,
             'posts' => $posts,
-            'pageTitle' => 'User Details - ' . htmlspecialchars($targetUser['username']),
+            'pageTitle' => 'User Details - ' .
+                htmlspecialchars($targetUser['username']),
         ]);
     }
 
@@ -116,8 +118,12 @@ class UserAdminController
             $enabled = $request->request->get('enabled', 'yes');
             $warned = $request->request->get('warned', 'no');
             $donor = $request->request->get('donor', 'no');
-            $title = Security::sanitizeInput($request->request->get('title', ''));
-            $modcomment = Security::sanitizeInput($request->request->get('modcomment', ''));
+            $title = Security::sanitizeInput($request
+                ->request
+                ->get('title', ''));
+            $modcomment = Security::sanitizeInput($request
+                ->request
+                ->get('modcomment', ''));
 
             Database::execute(
                 "UPDATE users SET class = :class, enabled = :enabled, warned = :warned, donor = :donor, title = :title, modcomment = :modcomment WHERE id = :id",
@@ -138,7 +144,8 @@ class UserAdminController
         return ResponseHelper::view('admin/users/edit', [
             'user' => $user,
             'targetUser' => $targetUser,
-            'pageTitle' => 'Edit User - ' . htmlspecialchars($targetUser['username']),
+            'pageTitle' => 'Edit User - ' .
+                htmlspecialchars($targetUser['username']),
         ]);
     }
 
@@ -177,8 +184,12 @@ class UserAdminController
         }
 
         if ($request->getMethod() === 'POST') {
-            $username = Security::sanitizeInput($request->request->get('username', ''));
-            $email = Security::sanitizeInput($request->request->get('email', ''));
+            $username = Security::sanitizeInput($request
+                ->request
+                ->get('username', ''));
+            $email = Security::sanitizeInput($request
+                ->request
+                ->get('email', ''));
             $password = $request->request->get('password', '');
             $class = (int) $request->request->get('class', 0);
 

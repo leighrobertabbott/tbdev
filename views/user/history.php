@@ -9,15 +9,18 @@ ob_start();
     <!-- Tabs -->
     <div class="border-b mb-6">
         <nav class="flex space-x-8">
-            <a href="/userhistory?action=posts<?= $viewUserId != $user['id'] ? '&id=' . $viewUserId : '' ?>" 
+            <a href="/userhistory?action=posts<?= $viewUserId != $user['id'] ? '&id=' .
+                $viewUserId : '' ?>"
                class="<?= $action === 'posts' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500' ?> py-4 px-1 border-b-2 font-medium">
                 Forum Posts
             </a>
-            <a href="/userhistory?action=comments<?= $viewUserId != $user['id'] ? '&id=' . $viewUserId : '' ?>" 
+            <a href="/userhistory?action=comments<?= $viewUserId != $user['id'] ? '&id=' .
+                $viewUserId : '' ?>"
                class="<?= $action === 'comments' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500' ?> py-4 px-1 border-b-2 font-medium">
                 Comments
             </a>
-            <a href="/userhistory?action=torrents<?= $viewUserId != $user['id'] ? '&id=' . $viewUserId : '' ?>" 
+            <a href="/userhistory?action=torrents<?= $viewUserId != $user['id'] ? '&id=' .
+                $viewUserId : '' ?>"
                class="<?= $action === 'torrents' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500' ?> py-4 px-1 border-b-2 font-medium">
                 Torrents
             </a>

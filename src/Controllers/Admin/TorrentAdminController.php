@@ -40,7 +40,8 @@ class TorrentAdminController
             $params['search'] = "%{$search}%";
         }
 
-        $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
+        $whereClause = !empty($where) ? 'WHERE ' .
+            implode(' AND ', $where) : '';
         
         // Remove limit/offset from params for COUNT query
         $countParams = $params;
@@ -92,7 +93,9 @@ class TorrentAdminController
             $category = (int) $request->request->get('category', 0);
             $visible = $request->request->get('visible', 'yes');
             $banned = $request->request->get('banned', 'no');
-            $description = Security::sanitizeInput($request->request->get('description', ''));
+            $description = Security::sanitizeInput($request
+                ->request
+                ->get('description', ''));
 
             Database::execute(
                 "UPDATE torrents SET name = :name, category = :category, visible = :visible, banned = :banned, descr = :description WHERE id = :id",

@@ -16,7 +16,8 @@ class DownloadController
     {
         $user = Auth::user();
         if (!$user) {
-            return ResponseHelper::redirect('/login?returnto=' . urlencode($request->getRequestUri()));
+            return ResponseHelper::redirect('/login?returnto=' .
+                urlencode($request->getRequestUri()));
         }
 
         $torrent = Torrent::findById($id);

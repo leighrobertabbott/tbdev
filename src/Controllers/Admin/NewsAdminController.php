@@ -34,7 +34,9 @@ class NewsAdminController
         }
 
         if ($request->getMethod() === 'POST') {
-            $headline = Security::sanitizeInput($request->request->get('headline', ''));
+            $headline = Security::sanitizeInput($request
+                ->request
+                ->get('headline', ''));
             $body = Security::sanitizeInput($request->request->get('body', ''));
 
             if (empty($headline) || empty($body)) {

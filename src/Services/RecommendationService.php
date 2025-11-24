@@ -66,7 +66,8 @@ class RecommendationService
                      LIMIT :limit";
                 $stmt = $db->prepare($sql);
                 foreach ($params as $key => $value) {
-                    $stmt->bindValue(':' . $key, $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+                    $stmt->bindValue(':' .
+                        $key, $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
                 }
                 $stmt->execute();
                 $torrents = $stmt->fetchAll(PDO::FETCH_ASSOC);

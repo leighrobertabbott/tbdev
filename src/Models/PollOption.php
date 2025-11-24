@@ -35,7 +35,9 @@ class PollOption
             return false;
         }
 
-        $sql = "UPDATE poll_options SET " . implode(', ', $updates) . " WHERE id = :id";
+        $sql = "UPDATE poll_options SET " .
+            implode(', ', $updates) .
+            " WHERE id = :id";
         $data['id'] = $id;
         
         return Database::execute($sql, $data) > 0;

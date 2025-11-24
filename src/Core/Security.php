@@ -114,7 +114,13 @@ class Security
         if (count($attempts) >= $maxAttempts) {
             flock($fp, LOCK_UN);
             fclose($fp);
-            error_log('Rate limit exceeded for: ' . $key . ' (attempts: ' . count($attempts) . ', max: ' . $maxAttempts . ')');
+            error_log('Rate limit exceeded for: ' .
+                $key .
+                ' (attempts: ' .
+                count($attempts) .
+                ', max: ' .
+                $maxAttempts .
+                ')');
             return false;
         }
         

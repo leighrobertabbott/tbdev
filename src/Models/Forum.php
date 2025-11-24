@@ -160,7 +160,9 @@ class Forum
         }
 
         Database::execute(
-            "UPDATE forums SET " . implode(', ', $setClause) . " WHERE id = :id",
+            "UPDATE forums SET " .
+                implode(', ', $setClause) .
+                " WHERE id = :id",
             $params
         );
     }

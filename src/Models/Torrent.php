@@ -72,7 +72,8 @@ class Torrent
         }
         // If includeDead is true, don't add any filter (show all)
 
-        $sql = "SELECT COUNT(*) as count FROM torrents WHERE " . implode(' AND ', $where);
+        $sql = "SELECT COUNT(*) as count FROM torrents WHERE " .
+            implode(' AND ', $where);
         $result = Database::fetchOne($sql, $params);
         return (int) ($result['count'] ?? 0);
     }
@@ -112,7 +113,9 @@ class Torrent
             return false;
         }
 
-        $sql = "UPDATE torrents SET " . implode(', ', $updates) . " WHERE id = :id";
+        $sql = "UPDATE torrents SET " .
+            implode(', ', $updates) .
+            " WHERE id = :id";
         $data['id'] = $id;
         
         return Database::execute($sql, $data) > 0;
@@ -163,7 +166,8 @@ class Torrent
             $params['category'] = $filters['category'];
         }
 
-        $sql = "SELECT COUNT(*) as count FROM torrents WHERE " . implode(' AND ', $where);
+        $sql = "SELECT COUNT(*) as count FROM torrents WHERE " .
+            implode(' AND ', $where);
         $result = Database::fetchOne($sql, $params);
         return (int) ($result['count'] ?? 0);
     }

@@ -41,7 +41,9 @@ class BanAdminController
         if ($request->getMethod() === 'POST') {
             $first = $request->request->get('first', '');
             $last = $request->request->get('last', '');
-            $comment = Security::sanitizeInput($request->request->get('comment', ''));
+            $comment = Security::sanitizeInput($request
+                ->request
+                ->get('comment', ''));
 
             $firstIp = ip2long($first);
             $lastIp = ip2long($last);

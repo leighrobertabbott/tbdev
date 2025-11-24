@@ -36,8 +36,12 @@ class CategoryAdminController
 
         if ($request->getMethod() === 'POST') {
             $name = Security::sanitizeInput($request->request->get('name', ''));
-            $image = Security::sanitizeInput($request->request->get('image', ''));
-            $description = Security::sanitizeInput($request->request->get('description', ''));
+            $image = Security::sanitizeInput($request
+                ->request
+                ->get('image', ''));
+            $description = Security::sanitizeInput($request
+                ->request
+                ->get('description', ''));
 
             if (empty($name)) {
                 return ResponseHelper::view('admin/categories/create', [

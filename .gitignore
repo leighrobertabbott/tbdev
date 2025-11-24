@@ -38,6 +38,11 @@ cache/*.php
 
 # Composer
 composer.lock
+composer.phar
+
+# Installation
+.installed
+public/.installed
 
 # Testing
 /coverage/

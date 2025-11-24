@@ -86,6 +86,14 @@ class LineFormatter
             return $this->fixMethodChain($trimmed, $indent, $nextIndent);
         }
 
+        // Pattern 5: Long SQL queries
+        if (preg_match('/(SELECT|UPDATE|INSERT|DELETE|FROM|WHERE|JOIN)/i', $trimmed)) {
+            $result = $this->fixSQLQuery($trimmed, $indent, $nextIndent);
+            if ($result !== null) {
+                return $result;
+            }
+        }
+
         // If can't fix, return original
         return $line;
     }
@@ -190,6 +198,51 @@ class LineFormatter
         }
 
         return $result;
+    }
+
+    private function fixSQLQuery(string $line, string $indent, string $nextIndent): ?array
+    {
+        // Only fix if significantly over limit
+        if (strlen($line) <= self::MAX_LENGTH + 10) {
+            return null;
+        }
+
+        // Try to split at SQL keywords
+        $keywords = ['WHERE', 'AND', 'OR', 'FROM', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'ORDER BY', 'GROUP BY'];
+        
+        foreach ($keywords as $keyword) {
+            if (stripos($line, ' ' . $keyword . ' ') !== false) {
+                $parts = preg_split('/(\s+' . preg_quote($keyword, '/') . '\s+)/i', $line, -1, PREG_SPLIT_DELIM_CAPTURE);
+                
+                if (count($parts) > 1) {
+                    $result = [];
+                    $currentLine = '';
+                    
+                    foreach ($parts as $idx => $part) {
+                        if ($idx === 0) {
+                            $currentLine = $part;
+                        } else {
+                            if (strlen($currentLine . $part) > self::MAX_LENGTH && !empty($currentLine)) {
+                                $result[] = $currentLine;
+                                $currentLine = $nextIndent . trim($part);
+                            } else {
+                                $currentLine .= $part;
+                            }
+                        }
+                    }
+                    
+                    if (!empty($currentLine)) {
+                        $result[] = $currentLine;
+                    }
+                    
+                    if (count($result) > 1) {
+                        return $result;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     private function splitParameters(string $params): array

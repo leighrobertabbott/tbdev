@@ -68,6 +68,11 @@ class Config
                 'database' => (int)($_ENV['CACHE_DATABASE'] ?? 0),
                 'enabled' => filter_var($_ENV['CACHE_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN),
             ],
+            'security' => [
+                // Only enable if behind a trusted reverse proxy (e.g., nginx, CloudFlare)
+                // When false, only REMOTE_ADDR is used (cannot be spoofed)
+                'trust_forwarded_headers' => filter_var($_ENV['TRUST_FORWARDED_HEADERS'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            ],
         ];
     }
 

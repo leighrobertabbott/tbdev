@@ -245,11 +245,15 @@ class AuthController
 
     public function logout(Request $request)
     {
+        // Use same secure flag logic as login
+        $isSecure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || 
+                    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+        
         setcookie('auth_token', '', [
             'expires' => time() - 3600,
             'path' => '/',
             'domain' => '',
-            'secure' => true,
+            'secure' => $isSecure,
             'httponly' => true,
             'samesite' => 'Lax'
         ]);

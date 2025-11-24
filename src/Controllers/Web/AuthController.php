@@ -62,7 +62,6 @@ class AuthController
                 'error' => 'Username and password are required.',
                 'returnto' => $returnto,
                 'pageTitle' => 'Login',
-                'debug' => implode("\n", $debug),
             ]);
         }
 

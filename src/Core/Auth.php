@@ -26,6 +26,13 @@ class Auth
     public static function generateToken(array $user): array
     {
         $secret = Config::get('jwt.secret');
+        
+        // Validate JWT secret is set and secure
+        if (empty($secret) || strlen($secret) < 32) {
+            error_log('CRITICAL: JWT_SECRET is not set or too weak. Please set a strong secret in .env file.');
+            throw new \RuntimeException('JWT secret not configured properly');
+        }
+        
         $expiry = Config::get('jwt.expiry');
 
         $payload = [
@@ -53,6 +60,13 @@ class Auth
     {
         try {
             $secret = Config::get('jwt.secret');
+            
+            // Validate JWT secret is set
+            if (empty($secret) || strlen($secret) < 32) {
+                error_log('CRITICAL: JWT_SECRET is not set or too weak');
+                return null;
+            }
+            
             $decoded = JWT::decode($token, new Key($secret, 'HS256'));
             return (array) $decoded;
         } catch (\Exception $e) {

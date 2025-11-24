@@ -19,10 +19,18 @@ Config::load();
 // Initialize cache
 Cache::init();
 
-// Set error reporting - Always show errors during development
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
+// Set error reporting based on environment
+$isProduction = Config::get('app.env', 'production') === 'production';
+if ($isProduction) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+    ini_set('log_errors', '1');
+} else {
+    error_reporting(E_ALL);
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+}
 
 // Set security headers
 header('X-Content-Type-Options: nosniff');

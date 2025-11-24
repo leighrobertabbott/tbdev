@@ -86,9 +86,23 @@ class Security
     {
         $cacheFile = sys_get_temp_dir() . '/ratelimit_' . md5($key) . '.json';
         
+        // Use file locking to prevent race conditions
+        $fp = fopen($cacheFile, 'c+');
+        if (!$fp) {
+            error_log('Failed to open rate limit file: ' . $cacheFile);
+            return true; // Fail open to prevent DoS
+        }
+        
+        if (!flock($fp, LOCK_EX)) {
+            fclose($fp);
+            error_log('Failed to acquire lock on rate limit file');
+            return true; // Fail open
+        }
+        
         $data = [];
-        if (file_exists($cacheFile)) {
-            $data = json_decode(file_get_contents($cacheFile), true) ?: [];
+        $content = stream_get_contents($fp);
+        if ($content) {
+            $data = json_decode($content, true) ?: [];
         }
         
         $now = time();
@@ -97,12 +111,21 @@ class Security
         });
         
         if (count($attempts) >= $maxAttempts) {
+            flock($fp, LOCK_UN);
+            fclose($fp);
             error_log('Rate limit exceeded for: ' . $key . ' (attempts: ' . count($attempts) . ', max: ' . $maxAttempts . ')');
             return false;
         }
         
         $attempts[] = $now;
-        file_put_contents($cacheFile, json_encode(['attempts' => $attempts]));
+        
+        // Write back to file
+        ftruncate($fp, 0);
+        rewind($fp);
+        fwrite($fp, json_encode(['attempts' => $attempts]));
+        
+        flock($fp, LOCK_UN);
+        fclose($fp);
         
         return true;
     }

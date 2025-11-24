@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./torrents:/var/www/torrents
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=TBDev
+      - DB_USER=root
+      - DB_PASS=rootpassword
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=TBDev
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./SQL:/docker-entrypoint-initdb.d
+
+volumes:
+  db_data:
+
+

@@ -1,0 +1,46 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Build
+/dist/
+/build/
+/public/build/
+
+# Cache
+cache/*.php
+!cache/index.html
+
+# Uploads
+/torrents/*
+!torrents/index.html
+/uploads/*
+
+# Composer
+composer.lock
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+

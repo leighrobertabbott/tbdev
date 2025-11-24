@@ -82,8 +82,12 @@ class CollectionController
 
         if ($request->getMethod() === 'POST') {
             $name = Security::sanitizeInput($request->request->get('name', ''));
-            $description = Security::sanitizeInput($request->request->get('description', ''));
-            $isPublic = $request->request->get('is_public', 'no') === 'yes' ? 'yes' : 'no';
+            $description = Security::sanitizeInput($request
+                ->request
+                ->get('description', ''));
+            $isPublic = $request
+                ->request
+                ->get('is_public', 'no') === 'yes' ? 'yes' : 'no';
 
             if (empty($name)) {
                 return ResponseHelper::view('collections/create', [

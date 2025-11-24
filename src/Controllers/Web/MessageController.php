@@ -82,7 +82,9 @@ class MessageController
         }
 
         $to = Security::sanitizeInput($request->request->get('to', ''));
-        $subject = Security::sanitizeInput($request->request->get('subject', ''));
+        $subject = Security::sanitizeInput($request
+            ->request
+            ->get('subject', ''));
         $msg = Security::sanitizeInput($request->request->get('msg', ''));
 
         if (empty($to) || empty($subject) || empty($msg)) {

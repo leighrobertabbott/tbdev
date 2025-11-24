@@ -93,11 +93,13 @@ ob_start();
             <?php if ($totalPages > 1): ?>
                 <div class="mt-4 flex justify-center space-x-2">
                     <?php if ($page > 1): ?>
-                        <a href="?page=<?= $page - 1 ?>&status=<?= urlencode($status ?? 'all') ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>" class="btn btn-secondary">Previous</a>
+                        <a href="?page=<?= $page - 1 ?>&status=<?= urlencode($status ?? 'all') ?><?= !empty($search) ? '&search=' .
+                            urlencode($search) : '' ?>" class="btn btn-secondary">Previous</a>
                     <?php endif; ?>
                     <span class="px-4 py-2">Page <?= $page ?> of <?= $totalPages ?></span>
                     <?php if ($page < $totalPages): ?>
-                        <a href="?page=<?= $page + 1 ?>&status=<?= urlencode($status ?? 'all') ?><?= !empty($search) ? '&search=' . urlencode($search) : '' ?>" class="btn btn-secondary">Next</a>
+                        <a href="?page=<?= $page + 1 ?>&status=<?= urlencode($status ?? 'all') ?><?= !empty($search) ? '&search=' .
+                            urlencode($search) : '' ?>" class="btn btn-secondary">Next</a>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>

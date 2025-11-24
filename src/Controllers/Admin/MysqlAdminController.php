@@ -38,7 +38,9 @@ class MysqlAdminController
         );
 
         // Get MySQL version
-        $version = $db->query("SELECT VERSION() as version")->fetch()['version'] ?? 'Unknown';
+        $version = $db
+            ->query("SELECT VERSION() as version")
+            ->fetch()['version'] ?? 'Unknown';
 
         return ResponseHelper::view('admin/mysql/stats', [
             'user' => $user,

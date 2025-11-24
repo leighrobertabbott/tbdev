@@ -55,7 +55,9 @@ class RecoveryController
 
         // In production, send email here
         // For now, we'll show the recovery link (remove in production!)
-        $recoveryUrl = Config::get('app.url') . "/recover/reset?token={$token}&email=" . urlencode($user['email']);
+        $recoveryUrl = Config::get('app.url') .
+            "/recover/reset?token={$token}&email=" .
+            urlencode($user['email']);
 
         return ResponseHelper::view('auth/recover-success', [
             'user' => Auth::user(),

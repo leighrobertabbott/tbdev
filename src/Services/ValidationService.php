@@ -87,7 +87,9 @@ class ValidationService
                 if (!empty($value)) {
                     $passwordErrors = Security::validatePassword($value);
                     if (!empty($passwordErrors)) {
-                        $this->errors[$field] = array_merge($this->errors[$field] ?? [], $passwordErrors);
+                        $this
+                            ->errors[$field] = array_merge($this
+                            ->errors[$field] ?? [], $passwordErrors);
                     }
                 }
                 break;

@@ -128,7 +128,9 @@ class ForumController
             return ResponseHelper::view('errors/404', ['pageTitle' => 'Forum Not Found'], 404);
         }
 
-        $subject = Security::sanitizeInput($request->request->get('subject', ''));
+        $subject = Security::sanitizeInput($request
+            ->request
+            ->get('subject', ''));
         $body = Security::sanitizeInput($request->request->get('body', ''));
 
         if (empty($subject) || empty($body)) {

@@ -29,37 +29,79 @@ class SettingsAdminController
             $newSettings = [];
 
             // Site Information
-            $newSettings['site_name'] = Security::sanitizeInput($request->request->get('site_name', ''));
-            $newSettings['site_tagline'] = Security::sanitizeInput($request->request->get('site_tagline', ''));
-            $newSettings['site_description'] = Security::sanitizeInput($request->request->get('site_description', ''));
-            $newSettings['site_keywords'] = Security::sanitizeInput($request->request->get('site_keywords', ''));
-            $newSettings['site_logo_url'] = Security::sanitizeInput($request->request->get('site_logo_url', ''));
-            $newSettings['site_favicon_url'] = Security::sanitizeInput($request->request->get('site_favicon_url', ''));
-            $newSettings['site_footer_text'] = Security::sanitizeInput($request->request->get('site_footer_text', ''));
+            $newSettings['site_name'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_name', ''));
+            $newSettings['site_tagline'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_tagline', ''));
+            $newSettings['site_description'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_description', ''));
+            $newSettings['site_keywords'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_keywords', ''));
+            $newSettings['site_logo_url'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_logo_url', ''));
+            $newSettings['site_favicon_url'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_favicon_url', ''));
+            $newSettings['site_footer_text'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_footer_text', ''));
 
             // Theme Colors
-            $newSettings['theme_primary_color'] = Security::sanitizeInput($request->request->get('theme_primary_color', ''));
-            $newSettings['theme_secondary_color'] = Security::sanitizeInput($request->request->get('theme_secondary_color', ''));
-            $newSettings['theme_accent_color'] = Security::sanitizeInput($request->request->get('theme_accent_color', ''));
+            $newSettings['theme_primary_color'] = Security::sanitizeInput($request
+                ->request
+                ->get('theme_primary_color', ''));
+            $newSettings['theme_secondary_color'] = Security::sanitizeInput($request
+                ->request
+                ->get('theme_secondary_color', ''));
+            $newSettings['theme_accent_color'] = Security::sanitizeInput($request
+                ->request
+                ->get('theme_accent_color', ''));
 
             // Social Media
-            $newSettings['social_facebook'] = Security::sanitizeInput($request->request->get('social_facebook', ''));
-            $newSettings['social_twitter'] = Security::sanitizeInput($request->request->get('social_twitter', ''));
-            $newSettings['social_discord'] = Security::sanitizeInput($request->request->get('social_discord', ''));
-            $newSettings['social_telegram'] = Security::sanitizeInput($request->request->get('social_telegram', ''));
-            $newSettings['social_reddit'] = Security::sanitizeInput($request->request->get('social_reddit', ''));
+            $newSettings['social_facebook'] = Security::sanitizeInput($request
+                ->request
+                ->get('social_facebook', ''));
+            $newSettings['social_twitter'] = Security::sanitizeInput($request
+                ->request
+                ->get('social_twitter', ''));
+            $newSettings['social_discord'] = Security::sanitizeInput($request
+                ->request
+                ->get('social_discord', ''));
+            $newSettings['social_telegram'] = Security::sanitizeInput($request
+                ->request
+                ->get('social_telegram', ''));
+            $newSettings['social_reddit'] = Security::sanitizeInput($request
+                ->request
+                ->get('social_reddit', ''));
 
             // Meta Tags
-            $newSettings['meta_og_image'] = Security::sanitizeInput($request->request->get('meta_og_image', ''));
-            $newSettings['meta_twitter_card'] = Security::sanitizeInput($request->request->get('meta_twitter_card', 'summary_large_image'));
+            $newSettings['meta_og_image'] = Security::sanitizeInput($request
+                ->request
+                ->get('meta_og_image', ''));
+            $newSettings['meta_twitter_card'] = Security::sanitizeInput($request
+                ->request
+                ->get('meta_twitter_card', 'summary_large_image'));
 
             // Contact Information
-            $newSettings['site_email'] = Security::sanitizeInput($request->request->get('site_email', ''));
-            $newSettings['site_contact_email'] = Security::sanitizeInput($request->request->get('site_contact_email', ''));
+            $newSettings['site_email'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_email', ''));
+            $newSettings['site_contact_email'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_contact_email', ''));
 
             // Maintenance
-            $newSettings['site_maintenance_mode'] = $request->request->get('site_maintenance_mode', '0') ? '1' : '0';
-            $newSettings['site_maintenance_message'] = Security::sanitizeInput($request->request->get('site_maintenance_message', ''));
+            $newSettings['site_maintenance_mode'] = $request
+                ->request
+                ->get('site_maintenance_mode', '0') ? '1' : '0';
+            $newSettings['site_maintenance_message'] = Security::sanitizeInput($request
+                ->request
+                ->get('site_maintenance_message', ''));
 
             // Save all settings
             SettingsService::setMultiple($newSettings);

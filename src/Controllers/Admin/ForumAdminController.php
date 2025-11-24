@@ -43,12 +43,16 @@ class ForumAdminController
 
         if ($request->getMethod() === 'POST') {
             $name = Security::sanitizeInput($request->request->get('name', ''));
-            $description = Security::sanitizeInput($request->request->get('description', ''));
+            $description = Security::sanitizeInput($request
+                ->request
+                ->get('description', ''));
             $sectionId = (int) $request->request->get('section_id', 0);
             $parentId = (int) $request->request->get('parent_id', 0);
             $minClassRead = (int) $request->request->get('min_class_read', 0);
             $minClassWrite = (int) $request->request->get('min_class_write', 0);
-            $minClassCreate = (int) $request->request->get('min_class_create', 0);
+            $minClassCreate = (int) $request
+                ->request
+                ->get('min_class_create', 0);
             $sort = (int) $request->request->get('sort', 0);
 
             if (empty($name)) {

@@ -64,7 +64,9 @@ class ProcessTorrentJob
                 'info_hash' => $infoHash,
                 'size' => $size,
                 'numfiles' => count($files),
-                'search_text' => $name . ' ' . implode(' ', array_column($files, 'filename')),
+                'search_text' => $name .
+                    ' ' .
+                    implode(' ', array_column($files, 'filename')),
             ]
         );
 

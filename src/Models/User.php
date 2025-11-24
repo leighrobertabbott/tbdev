@@ -64,7 +64,9 @@ class User
             return false;
         }
 
-        $sql = "UPDATE users SET " . implode(', ', $updates) . " WHERE id = :id";
+        $sql = "UPDATE users SET " .
+            implode(', ', $updates) .
+            " WHERE id = :id";
         
         return Database::execute($sql, $params) > 0;
     }

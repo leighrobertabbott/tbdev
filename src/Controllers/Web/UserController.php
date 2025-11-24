@@ -59,7 +59,8 @@ class UserController
             'achievements' => $achievements,
             'earnedAchievements' => $earnedAchievements,
             'achievementPoints' => $achievementPoints,
-            'pageTitle' => htmlspecialchars($profileUser['username']) . ' - Profile',
+            'pageTitle' => htmlspecialchars($profileUser['username']) .
+                ' - Profile',
         ]);
     }
 
@@ -131,12 +132,16 @@ class UserController
 
         // Title
         if ($request->request->has('title')) {
-            $data['title'] = Security::sanitizeInput($request->request->get('title', ''));
+            $data['title'] = Security::sanitizeInput($request
+                ->request
+                ->get('title', ''));
         }
 
         // Info
         if ($request->request->has('info')) {
-            $data['info'] = Security::sanitizeInput($request->request->get('info', ''));
+            $data['info'] = Security::sanitizeInput($request
+                ->request
+                ->get('info', ''));
         }
 
         // Stylesheet
@@ -146,14 +151,18 @@ class UserController
 
         // Timezone (stored as time_offset in database - format: "+05" or "-08")
         if ($request->request->has('timezone')) {
-            $timezone = Security::sanitizeInput($request->request->get('timezone', '0'));
+            $timezone = Security::sanitizeInput($request
+                ->request
+                ->get('timezone', '0'));
             // Store as offset string (e.g., "+05", "-08", "0")
             $data['time_offset'] = $timezone;
         }
 
         // Privacy (enum: 'strong', 'normal', 'low')
         if ($request->request->has('privacy')) {
-            $privacy = Security::sanitizeInput($request->request->get('privacy', 'normal'));
+            $privacy = Security::sanitizeInput($request
+                ->request
+                ->get('privacy', 'normal'));
             if (in_array($privacy, ['strong', 'normal', 'low'])) {
                 $data['privacy'] = $privacy;
             }
@@ -219,7 +228,9 @@ class UserController
         $newHash = password_hash($newPassword, PASSWORD_BCRYPT);
         User::update($user['id'], ['passhash' => $newHash]);
 
-        return ResponseHelper::redirect('/user/' . $user['id'] . '?password_changed=1');
+        return ResponseHelper::redirect('/user/' .
+            $user['id'] .
+            '?password_changed=1');
     }
 
     public function myTorrents(Request $request)

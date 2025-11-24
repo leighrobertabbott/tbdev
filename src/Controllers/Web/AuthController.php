@@ -41,7 +41,9 @@ class AuthController
 
     public function login(Request $request)
     {
-        $username = Security::sanitizeInput($request->request->get('username', ''));
+        $username = Security::sanitizeInput($request
+            ->request
+            ->get('username', ''));
         $password = $request->request->get('password', '');
         $returnto = $request->request->get('returnto', '/');
 
@@ -168,7 +170,9 @@ class AuthController
 
     public function signup(Request $request)
     {
-        $username = Security::sanitizeInput($request->request->get('wantusername', ''));
+        $username = Security::sanitizeInput($request
+            ->request
+            ->get('wantusername', ''));
         $password = $request->request->get('wantpassword', '');
         $passAgain = $request->request->get('passagain', '');
         $email = Security::sanitizeInput($request->request->get('email', ''));

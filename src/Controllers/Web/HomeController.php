@@ -111,7 +111,8 @@ class HomeController
                     $recommendations = RecommendationService::getForUser($user['id'], 8);
                     $trending = RecommendationService::getTrending(8);
                 } catch (\Exception $e) {
-                    error_log('Error fetching recommendations: ' . $e->getMessage());
+                    error_log('Error fetching recommendations: ' .
+                        $e->getMessage());
                 }
                 
                 // Check for new achievements
@@ -121,7 +122,8 @@ class HomeController
                         $_SESSION['new_achievements'] = $newAchievements;
                     }
                 } catch (\Exception $e) {
-                    error_log('Error checking achievements: ' . $e->getMessage());
+                    error_log('Error checking achievements: ' .
+                        $e->getMessage());
                 }
             }
             
@@ -145,7 +147,11 @@ class HomeController
             error_log('HomeController error: ' . $e->getMessage());
             error_log('Stack trace: ' . $e->getTraceAsString());
             return new \Symfony\Component\HttpFoundation\Response(
-                '<pre>Error: ' . htmlspecialchars($e->getMessage()) . "\n\n" . htmlspecialchars($e->getTraceAsString()) . '</pre>',
+                '<pre>Error: ' .
+                    htmlspecialchars($e->getMessage()) .
+                    "\n\n" .
+                    htmlspecialchars($e->getTraceAsString()) .
+                    '</pre>',
                 500,
                 ['Content-Type' => 'text/html']
             );

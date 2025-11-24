@@ -121,16 +121,26 @@ class InstallerController
                 'db_name' => $_SESSION['installer_db_config']['name'],
                 'app_env' => $request->request->get('app_env', 'production'),
                 'app_debug' => $request->request->get('app_debug', 'false'),
-                'app_url' => $request->request->get('app_url', 'http://localhost'),
+                'app_url' => $request
+                    ->request
+                    ->get('app_url', 'http://localhost'),
                 'app_name' => $request->request->get('app_name', 'TorrentBits'),
                 'jwt_secret' => bin2hex(random_bytes(32)),
-                'mail_host' => $request->request->get('mail_host', 'smtp.example.com'),
+                'mail_host' => $request
+                    ->request
+                    ->get('mail_host', 'smtp.example.com'),
                 'mail_port' => $request->request->get('mail_port', '587'),
                 'mail_user' => $request->request->get('mail_user', ''),
                 'mail_pass' => $request->request->get('mail_pass', ''),
-                'mail_encryption' => $request->request->get('mail_encryption', 'tls'),
-                'mail_from_address' => $request->request->get('mail_from_address', 'noreply@example.com'),
-                'mail_from_name' => $request->request->get('mail_from_name', 'TorrentBits'),
+                'mail_encryption' => $request
+                    ->request
+                    ->get('mail_encryption', 'tls'),
+                'mail_from_address' => $request
+                    ->request
+                    ->get('mail_from_address', 'noreply@example.com'),
+                'mail_from_name' => $request
+                    ->request
+                    ->get('mail_from_name', 'TorrentBits'),
             ];
 
             $result = InstallerService::createEnvFile($appConfig);
@@ -179,7 +189,9 @@ class InstallerController
                 ]);
             }
 
-            if ($userData['password'] !== $request->request->get('password_confirm', '')) {
+            if ($userData['password'] !== $request
+                ->request
+                ->get('password_confirm', '')) {
                 return ResponseHelper::view('installer/step4-admin', [
                     'error' => 'Passwords do not match.',
                     'pageTitle' => 'Step 4: Create Admin Account',

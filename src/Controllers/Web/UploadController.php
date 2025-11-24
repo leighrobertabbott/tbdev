@@ -61,7 +61,8 @@ class UploadController
             return ResponseHelper::view('upload/index', [
                 'user' => $user,
                 'categories' => Category::all(),
-                'error' => 'File too large. Maximum size: ' . \App\Core\FormatHelper::bytes($maxSize),
+                'error' => 'File too large. Maximum size: ' .
+                    \App\Core\FormatHelper::bytes($maxSize),
                 'pageTitle' => 'Upload Torrent',
             ]);
         }
@@ -81,7 +82,9 @@ class UploadController
         // Get form data
         $name = Security::sanitizeInput($request->request->get('name', ''));
         $category = (int) $request->request->get('category', 0);
-        $description = Security::sanitizeInput($request->request->get('description', ''));
+        $description = Security::sanitizeInput($request
+            ->request
+            ->get('description', ''));
 
         if (empty($name) || $category <= 0) {
             return ResponseHelper::view('upload/index', [
@@ -143,12 +146,16 @@ class UploadController
         }
         
         // Test if directory is writable
-        $testFile = $torrentDir . DIRECTORY_SEPARATOR . '.writable_test_' . uniqid();
+        $testFile = $torrentDir .
+            DIRECTORY_SEPARATOR .
+            '.writable_test_' .
+            uniqid();
         if (@file_put_contents($testFile, 'test') === false) {
             return ResponseHelper::view('upload/index', [
                 'user' => $user,
                 'categories' => Category::all(),
-                'error' => 'Torrents directory is not writable. Please check permissions on: ' . htmlspecialchars($torrentDir),
+                'error' => 'Torrents directory is not writable. Please check permissions on: ' .
+                    htmlspecialchars($torrentDir),
                 'pageTitle' => 'Upload Torrent',
             ]);
         }
@@ -165,7 +172,8 @@ class UploadController
             return ResponseHelper::view('upload/index', [
                 'user' => $user,
                 'categories' => Category::all(),
-                'error' => 'Failed to save torrent file: ' . htmlspecialchars($e->getMessage()),
+                'error' => 'Failed to save torrent file: ' .
+                    htmlspecialchars($e->getMessage()),
                 'pageTitle' => 'Upload Torrent',
             ]);
         }

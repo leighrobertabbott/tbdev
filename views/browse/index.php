@@ -65,7 +65,9 @@ ob_start();
                                     $categoryImage = $cat['image'] ?? '';
                                 }
                                 ?>
-                                <?php if (!empty($categoryImage) && file_exists(__DIR__ . '/../../public/images/categories/' . $categoryImage)): ?>
+                                <?php if (!empty($categoryImage) && file_exists(__DIR__ .
+                                    '/../../public/images/categories/' .
+                                    $categoryImage)): ?>
                                     <img src="/images/categories/<?= htmlspecialchars($categoryImage) ?>" 
                                          alt="<?= htmlspecialchars($torrent['category_name'] ?? '') ?>"
                                          class="w-full h-full object-cover">
@@ -174,7 +176,9 @@ ob_start();
     <?php if ($totalPages > 1): ?>
         <div class="mt-8 flex justify-center items-center space-x-4">
             <?php if ($page > 1): ?>
-                <a href="?page=<?= $page - 1 ?><?= $selectedCategory > 0 ? '&cat=' . $selectedCategory : '' ?><?= $includeDead > 0 ? '&incldead=' . $includeDead : '' ?>" 
+                <a href="?page=<?= $page - 1 ?><?= $selectedCategory > 0 ? '&cat=' .
+                    $selectedCategory : '' ?><?= $includeDead > 0 ? '&incldead=' .
+                    $includeDead : '' ?>"
                    class="btn btn-secondary">Previous</a>
             <?php endif; ?>
             
@@ -183,7 +187,9 @@ ob_start();
             </span>
             
             <?php if ($page < $totalPages): ?>
-                <a href="?page=<?= $page + 1 ?><?= $selectedCategory > 0 ? '&cat=' . $selectedCategory : '' ?><?= $includeDead > 0 ? '&incldead=' . $includeDead : '' ?>" 
+                <a href="?page=<?= $page + 1 ?><?= $selectedCategory > 0 ? '&cat=' .
+                    $selectedCategory : '' ?><?= $includeDead > 0 ? '&incldead=' .
+                    $includeDead : '' ?>"
                    class="btn btn-secondary">Next</a>
             <?php endif; ?>
         </div>

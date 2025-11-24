@@ -198,7 +198,9 @@ class InstallerService
                                                     WHERE TABLE_SCHEMA = DATABASE() 
                                                     AND TABLE_NAME = '{$tableName}' 
                                                     AND COLUMN_NAME = '{$columnName}'";
-                                        $result = $pdo->query($checkSql)->fetch(PDO::FETCH_ASSOC);
+                                        $result = $pdo
+                                            ->query($checkSql)
+                                            ->fetch(PDO::FETCH_ASSOC);
                                         if ($result['count'] == 0) {
                                             // Column doesn't exist, add it
                                             $statement = "ALTER TABLE `{$tableName}` ADD COLUMN {$columnDef}";

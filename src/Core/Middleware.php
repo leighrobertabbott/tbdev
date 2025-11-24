@@ -18,7 +18,11 @@ abstract class Middleware
             }
             
             if (in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
-                $token = $request->request->get('_token') ?? $request->headers->get('X-CSRF-TOKEN');
+                $token = $request
+                    ->request
+                    ->get('_token') ?? $request
+                    ->headers
+                    ->get('X-CSRF-TOKEN');
                 
                 // Ensure we have a token in session
                 if (!isset($_SESSION['csrf_token'])) {
@@ -27,9 +31,13 @@ abstract class Middleware
                 
                 if (!$token || !Security::validateCsrfToken($token)) {
                     // For web requests, redirect back with error
-                    if (!$request->isXmlHttpRequest() && strpos($request->getPathInfo(), '/api/') !== 0) {
+                    if (!$request
+                        ->isXmlHttpRequest() && strpos($request
+                        ->getPathInfo(), '/api/') !== 0) {
                         $_SESSION['csrf_error'] = 'CSRF token mismatch. Please try again.';
-                        $referer = $request->headers->get('Referer') ?? '/login';
+                        $referer = $request
+                            ->headers
+                            ->get('Referer') ?? '/login';
                         return new Response('', 302, ['Location' => $referer]);
                     }
                     // For API requests, return JSON error
@@ -45,11 +53,14 @@ abstract class Middleware
     {
         return function(Request $request, callable $next) {
             if (!Auth::check()) {
-                if ($request->isXmlHttpRequest() || strpos($request->getPathInfo(), '/api/') === 0) {
+                if ($request
+                    ->isXmlHttpRequest() || strpos($request
+                    ->getPathInfo(), '/api/') === 0) {
                     return new Response(json_encode(['error' => 'Unauthorized']), 401, ['Content-Type' => 'application/json']);
                 }
                 // Redirect to login for web requests
-                $loginUrl = '/login?returnto=' . urlencode($request->getPathInfo());
+                $loginUrl = '/login?returnto=' .
+                    urlencode($request->getPathInfo());
                 return new Response('', 302, ['Location' => $loginUrl]);
             }
             
@@ -67,9 +78,15 @@ abstract class Middleware
             
             if (in_array($origin, $allowedOrigins)) {
                 $response->headers->set('Access-Control-Allow-Origin', $origin);
-                $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-TOKEN');
-                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+                $response
+                    ->headers
+                    ->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+                $response
+                    ->headers
+                    ->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-TOKEN');
+                $response
+                    ->headers
+                    ->set('Access-Control-Allow-Credentials', 'true');
             }
             
             if ($request->getMethod() === 'OPTIONS') {

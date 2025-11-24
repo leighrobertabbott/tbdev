@@ -78,7 +78,8 @@ class Router
                         $instance = new $class();
                         $response = call_user_func_array([$instance, $method], array_merge([$request], array_values($parameters)));
                     } else {
-                        $response = new Response('Controller class not found: ' . (is_string($class) ? $class : gettype($class)), 404);
+                        $response = new Response('Controller class not found: ' .
+                            (is_string($class) ? $class : gettype($class)), 404);
                     }
                 } elseif (is_string($controller) && strpos($controller, '::') !== false) {
                     [$class, $method] = explode('::', $controller);
@@ -86,10 +87,14 @@ class Router
                         $instance = new $class();
                         $response = call_user_func_array([$instance, $method], array_merge([$request], array_values($parameters)));
                     } else {
-                        $response = new Response('Controller class not found: ' . $class, 404);
+                        $response = new Response('Controller class not found: ' .
+                            $class, 404);
                     }
                 } else {
-                    $response = new Response('Controller not found. Type: ' . gettype($controller) . ', Value: ' . (is_string($controller) ? $controller : json_encode($controller)), 404);
+                    $response = new Response('Controller not found. Type: ' .
+                        gettype($controller) .
+                        ', Value: ' .
+                        (is_string($controller) ? $controller : json_encode($controller)), 404);
                 }
                 return $response instanceof Response ? $response : new Response((string)$response);
             };
@@ -109,13 +114,21 @@ class Router
                 $availableRoutes = array_keys($this->routes->all());
                 $matchingRoutes = array_filter($availableRoutes, function($name) use ($request) {
                     $route = $this->routes->get($name);
-                    return $route && in_array($request->getMethod(), $route->getMethods());
+                    return $route && in_array($request
+                        ->getMethod(), $route
+                        ->getMethods());
                 });
                 return new Response(
                     '<h1>Route Not Found</h1>' .
-                    '<p><strong>Path:</strong> ' . htmlspecialchars($request->getPathInfo()) . '</p>' .
-                    '<p><strong>Method:</strong> ' . htmlspecialchars($request->getMethod()) . '</p>' .
-                    '<p><strong>Matching routes:</strong> ' . implode(', ', array_slice($matchingRoutes, 0, 20)) . '</p>',
+                    '<p><strong>Path:</strong> ' .
+                        htmlspecialchars($request->getPathInfo()) .
+                        '</p>' .
+                    '<p><strong>Method:</strong> ' .
+                        htmlspecialchars($request->getMethod()) .
+                        '</p>' .
+                    '<p><strong>Matching routes:</strong> ' .
+                        implode(', ', array_slice($matchingRoutes, 0, 20)) .
+                        '</p>',
                     404,
                     ['Content-Type' => 'text/html']
                 );
@@ -126,7 +139,11 @@ class Router
             error_log('Stack trace: ' . $e->getTraceAsString());
             if (Config::get('app.debug')) {
                 return new Response(
-                    '<h1>Error</h1><pre>' . htmlspecialchars($e->getMessage() . "\n\n" . $e->getTraceAsString()) . '</pre>',
+                    '<h1>Error</h1><pre>' .
+                        htmlspecialchars($e->getMessage() .
+                        "\n\n" .
+                        $e->getTraceAsString()) .
+                        '</pre>',
                     500,
                     ['Content-Type' => 'text/html']
                 );

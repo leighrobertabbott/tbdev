@@ -15,7 +15,8 @@ class BrowseController
     {
         $user = Auth::user();
         if (!$user) {
-            return ResponseHelper::redirect('/login?returnto=' . urlencode($request->getRequestUri()));
+            return ResponseHelper::redirect('/login?returnto=' .
+                urlencode($request->getRequestUri()));
         }
 
         $categories = Category::all();
@@ -65,10 +66,15 @@ class BrowseController
     {
         $user = Auth::user();
         if (!$user) {
-            return ResponseHelper::redirect('/login?returnto=' . urlencode($request->getRequestUri()));
+            return ResponseHelper::redirect('/login?returnto=' .
+                urlencode($request->getRequestUri()));
         }
 
-        $query = Security::sanitizeInput($request->query->get('q', $request->query->get('search', '')));
+        $query = Security::sanitizeInput($request
+            ->query
+            ->get('q', $request
+            ->query
+            ->get('search', '')));
         $selectedCategory = (int) $request->query->get('cat', 0);
         $page = max(1, (int) $request->query->get('page', 1));
         $perPage = 50;

@@ -125,7 +125,14 @@ class AuthController
         // Use secure=false for localhost/HTTP, secure=true for HTTPS in production
         $isSecure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || 
                     (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
-        setcookie('auth_token', $tokenData['token'], time() + 86400 * 365, '/', '', $isSecure, true);
+        setcookie('auth_token', $tokenData['token'], [
+            'expires' => time() + 86400 * 365,
+            'path' => '/',
+            'domain' => '',
+            'secure' => $isSecure,
+            'httponly' => true,
+            'samesite' => 'Lax' // Lax allows the cookie to be sent with top-level navigations
+        ]);
 
         // Update last access
         User::updateLastAccess($user['id'], $ip);
@@ -235,7 +242,14 @@ class AuthController
 
     public function logout(Request $request)
     {
-        setcookie('auth_token', '', time() - 3600, '/');
+        setcookie('auth_token', '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'domain' => '',
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
         return ResponseHelper::redirect('/');
     }
 }

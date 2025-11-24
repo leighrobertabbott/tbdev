@@ -100,6 +100,7 @@ class Security
         }
         
         $data = [];
+        rewind($fp); // Reset pointer to beginning before reading
         $content = stream_get_contents($fp);
         if ($content) {
             $data = json_decode($content, true) ?: [];
@@ -122,7 +123,11 @@ class Security
         // Write back to file
         ftruncate($fp, 0);
         rewind($fp);
-        fwrite($fp, json_encode(['attempts' => $attempts]));
+        $written = fwrite($fp, json_encode(['attempts' => $attempts]));
+        
+        if ($written === false) {
+            error_log('Failed to write rate limit data to file: ' . $cacheFile);
+        }
         
         flock($fp, LOCK_UN);
         fclose($fp);
@@ -140,21 +145,38 @@ class Security
 
     public static function getClientIp(): string
     {
-        $ipKeys = ['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'];
+        // WARNING: HTTP_CLIENT_IP and HTTP_X_FORWARDED_FOR can be spoofed by clients
+        // Only use these headers if you have a trusted proxy/load balancer
+        // For production, consider implementing trusted proxy IP checking
         
-        foreach ($ipKeys as $key) {
-            if (!empty($_SERVER[$key])) {
-                $ip = $_SERVER[$key];
-                if (strpos($ip, ',') !== false) {
-                    $ip = explode(',', $ip)[0];
-                }
-                $ip = trim($ip);
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                    return $ip;
+        // If behind a trusted proxy, check forwarded headers
+        // Otherwise, always use REMOTE_ADDR which cannot be spoofed
+        $trustForwardedHeaders = Config::get('security.trust_forwarded_headers', false);
+        
+        if ($trustForwardedHeaders) {
+            $ipKeys = ['HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP', 'REMOTE_ADDR'];
+            
+            foreach ($ipKeys as $key) {
+                if (!empty($_SERVER[$key])) {
+                    $ip = $_SERVER[$key];
+                    // If comma-separated (proxy chain), take the first IP
+                    if (strpos($ip, ',') !== false) {
+                        $ip = explode(',', $ip)[0];
+                    }
+                    $ip = trim($ip);
+                    // Validate IP and exclude private/reserved ranges for public use
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                        return $ip;
+                    }
+                    // Also accept the IP even if it's private (for local dev)
+                    if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                        return $ip;
+                    }
                 }
             }
         }
         
+        // Default to REMOTE_ADDR which cannot be spoofed
         return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
 }

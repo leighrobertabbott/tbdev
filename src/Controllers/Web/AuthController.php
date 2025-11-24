@@ -119,6 +119,9 @@ class AuthController
             }
         }
 
+        // Regenerate session ID to prevent session fixation
+        session_regenerate_id(true);
+        
         // Generate token and set cookie
         $tokenData = Auth::generateToken($user);
         
